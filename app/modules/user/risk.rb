@@ -124,7 +124,7 @@ module User::Risk
   def suspend_sellers_other_accounts(transition)
     return if transition.args.first&.dig(:skip_transition_callback) == __method__
 
-    SuspendAccountsWithPaymentAddressWorker.perform_in(5.seconds, id)
+    SuspendAccountsWithPaymentAddressWorker.perform_in(5.seconds, id, transition.to_name.to_s)
   end
 
   def block_seller_ip!

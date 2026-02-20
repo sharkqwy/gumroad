@@ -23,6 +23,16 @@ describe CheckPaymentAddressWorker do
       expect(@user.reload.flagged?).to be(true)
     end
 
+    it "probates the user if there are TOS-suspended users with the same payment address" do
+      create(:user, user_risk_state: "suspended_for_tos_violation", payment_address: "tos_user@gmail.com")
+      @user = create(:user, payment_address: "tos_user@gmail.com")
+
+      CheckPaymentAddressWorker.new.perform(@user.id)
+
+      expect(@user.reload.flagged?).to be(false)
+      expect(@user.reload.on_probation?).to be(true)
+    end
+
     it "flags the user for fraud if a blocked email object exists for their payment address" do
       @user = create(:user, payment_address: "fraudulent_email@zombo.com")
 
@@ -57,7 +67,7 @@ describe CheckPaymentAddressWorker do
       expect(user.reload.flagged?).to be(true)
     end
 
-    it "flags the user for fraud if a suspended_for_tos_violation user has the same stripe fingerprint" do
+    it "probates the user if a suspended_for_tos_violation user has the same stripe fingerprint" do
       suspended_user = create(:user, user_risk_state: "suspended_for_tos_violation")
       create(:ach_account, user: suspended_user, stripe_fingerprint: "same_fingerprint_456")
 
@@ -66,7 +76,10 @@ describe CheckPaymentAddressWorker do
 
       CheckPaymentAddressWorker.new.perform(user.id)
 
-      expect(user.reload.flagged?).to be(true)
+      expect(user.reload.flagged?).to be(false)
+      expect(user.reload.on_probation?).to be(true)
+      expect(user.comments.last.content).to include("Probated automatically")
+      expect(user.comments.last.content).to include("suspended for TOS violation")
     end
 
     it "flags the user for fraud if a blocked fingerprint object exists" do

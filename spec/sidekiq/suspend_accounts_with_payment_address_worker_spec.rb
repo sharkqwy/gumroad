@@ -110,6 +110,40 @@ describe SuspendAccountsWithPaymentAddressWorker do
       end
     end
 
+    context "with tos violation suspension type" do
+      before do
+        @user = create(:user, payment_address: "sameuser@paypal.com")
+        @user_2 = create(:user, payment_address: "sameuser@paypal.com")
+      end
+
+      it "probates other accounts instead of suspending for fraud when suspension is for tos violation" do
+        described_class.new.perform(@user.id, "suspended_for_tos_violation")
+
+        expect(@user_2.reload.suspended?).to be(false)
+        expect(@user_2.reload.on_probation?).to be(true)
+        expect(@user_2.comments.last.content).to include("Probated automatically")
+        expect(@user_2.comments.last.content).to include("suspended for TOS violation")
+      end
+
+      it "probates accounts with same stripe fingerprint for tos violation" do
+        user_3 = create(:user)
+        create(:ach_account, user: @user, stripe_fingerprint: "tos_fingerprint")
+        create(:ach_account, user: user_3, stripe_fingerprint: "tos_fingerprint")
+
+        described_class.new.perform(@user.id, "suspended_for_tos_violation")
+
+        expect(user_3.reload.on_probation?).to be(true)
+        expect(user_3.reload.suspended?).to be(false)
+      end
+
+      it "still suspends for fraud when suspension type is suspended_for_fraud" do
+        described_class.new.perform(@user.id, "suspended_for_fraud")
+
+        expect(@user_2.reload.suspended?).to be(true)
+        expect(@user_2.reload.suspended_for_fraud?).to be(true)
+      end
+    end
+
     context "with both payment address and stripe fingerprint" do
       before do
         @user = create(:user, payment_address: "sameuser@paypal.com")
