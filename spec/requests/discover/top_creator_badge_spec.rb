@@ -17,9 +17,10 @@ describe("Top creator badge on Discover and Product pages", js: true, type: :sys
     top_creator = create(:compliant_user, name: "Top Creator", verified: true)
     regular_creator = create(:compliant_user, name: "Regular Creator", verified: false)
     top_creator_product = create(:product, user: top_creator, name: "Top Creator Product", taxonomy: three_d_taxonomy)
-    create(:product, user: regular_creator, name: "Regular Product", taxonomy: three_d_taxonomy)
+    regular_product = create(:product, user: regular_creator, name: "Regular Product", taxonomy: three_d_taxonomy)
 
     create(:purchase, email: "buyer@example.com", link: top_creator_product)
+    create(:purchase, email: "buyer2@example.com", link: regular_product)
 
     index_model_records(Link)
 
