@@ -2,7 +2,9 @@ import * as React from "react";
 
 import { CreatorProfile } from "$app/parsers/profile";
 
+import { TopCreatorBadge } from "$app/components/Product/AuthorByline";
 import { NavigationButton } from "$app/components/Button";
+import { WithTooltip } from "$app/components/WithTooltip";
 import { CartNavigationButton } from "$app/components/Checkout/CartNavigationButton";
 import { useCartItemsCount } from "$app/components/Checkout/useCartItemsCount";
 import { Icon } from "$app/components/Icons";
@@ -52,8 +54,13 @@ export const Layout = ({ creatorProfile, hideFollowForm, children }: LayoutProps
               </NavigationButton>
             ) : null}
             <img className="user-avatar" src={creatorProfile.avatar_url} alt="Profile Picture" />
-            <a href={Routes.root_path()} className="no-underline">
+            <a href={Routes.root_path()} className="no-underline flex items-center gap-2">
               {creatorProfile.name}
+              {creatorProfile.verified ? (
+                <WithTooltip tip="Top creator" position="bottom">
+                  <TopCreatorBadge />
+                </WithTooltip>
+              ) : null}
             </a>
             {!isDesktop ? headerButtons : null}
           </div>

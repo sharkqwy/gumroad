@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { WithTooltip } from "$app/components/WithTooltip";
 
-const TopCreatorBadge = () => (
+export const TopCreatorBadge = () => (
   <svg
     width="16"
     height="16"
