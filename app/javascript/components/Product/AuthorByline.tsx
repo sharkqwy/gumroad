@@ -4,13 +4,12 @@ import { WithTooltip } from "$app/components/WithTooltip";
 
 const TopCreatorBadge = () => (
   <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
+    width="16"
+    height="16"
+    viewBox="3.5 5 17 17"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className="top-creator-badge shrink-0"
-    style={{ position: "relative", top: "-2px" }}
     aria-hidden="true"
     focusable="false"
   >
