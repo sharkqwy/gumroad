@@ -10,6 +10,7 @@ const TopCreatorBadge = () => (
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
     className="top-creator-badge shrink-0"
+    style={{ position: "relative", top: "-2px" }}
     aria-hidden="true"
     focusable="false"
   >
