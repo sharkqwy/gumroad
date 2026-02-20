@@ -32,7 +32,7 @@ export const buttonVariants = cva(
         destructive: "",
       },
       size: {
-        default: "px-4 py-3 text-base leading-[1.4]",
+        default: "px-4 py-3 text-base leading-snug",
         sm: "p-2 text-sm leading-[1.3]",
       },
       color: {
@@ -49,7 +49,7 @@ export const buttonVariants = cva(
         discord: "bg-[#7289da] text-white border-[#7289da]",
         stripe: "bg-[#625bf6] text-white border-[#625bf6]",
         facebook: "bg-[#4267b2] text-white border-[#4267b2]",
-        twitter: "bg-black text-white border-black",
+        twitter: "bg-black text-white",
         apple: "bg-black text-white",
         android: "bg-[#142f40] text-white",
         kindle: "bg-[#f3a642] text-black border-[#f3a642]",

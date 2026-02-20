@@ -122,12 +122,13 @@ export const PopoverMenuItem = ({
   <Popover>
     <PopoverTrigger aria-label={name} className="all-unset">
       <MenuItemTooltip tip={name}>
-        <div className="toolbar-item">
+        <div className="toolbar-item flex items-center gap-2">
           <Icon name={icon} />
+          <span>{name}</span>
         </div>
       </MenuItemTooltip>
     </PopoverTrigger>
-    <PopoverContent sideOffset={4} className="border-0 p-0 shadow-none">
+    <PopoverContent usePortal sideOffset={4} className="border-0 p-0 shadow-none">
       {children}
     </PopoverContent>
   </Popover>
