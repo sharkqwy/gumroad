@@ -344,8 +344,8 @@ const EditButton = ({ product }: { product: Product }) => {
         top: isDesktop ? "var(--spacer-3)" : "var(--spacer-4)",
         right: isDesktop ? undefined : "var(--spacer-4)",
         left: isDesktop ? "var(--spacer-3)" : undefined,
-        // Render above the product `article`
-        zIndex: "var(--z-index-overlay)",
+        // Render above the product `article` and the profile header (z-20)
+        zIndex: 21,
       }}
     >
       <WithTooltip tip="Edit product" position={isDesktop ? "right" : "left"}>
