@@ -26,6 +26,16 @@ describe "User profile settings page", type: :system, js: true do
       expect(page).to have_link "Preview", href: root_url(host: @user.subdomain)
     end
 
+    it "does not overflow horizontally" do
+      visit settings_profile_path
+
+      preview_sidebar = find("aside", text: "Preview")
+      preview_document = preview_sidebar.find("[role='document']")
+
+      expect(page.evaluate_script("arguments[0].scrollWidth <= arguments[0].clientWidth", preview_sidebar)).to be true
+      expect(page.evaluate_script("arguments[0].scrollWidth <= arguments[0].clientWidth", preview_document)).to be true
+    end
+
     it "renders the profile" do
       visit settings_profile_path
 

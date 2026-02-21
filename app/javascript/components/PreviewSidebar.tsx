@@ -5,7 +5,7 @@ import { Icon } from "$app/components/Icons";
 import { WithTooltip } from "$app/components/WithTooltip";
 
 export const WithPreviewSidebar = ({ children, className, ...props }: React.ComponentProps<"div">) => (
-  <div className={cx("squished lg:grid lg:grid-cols-[1fr_30vw]", className)} {...props}>
+  <div className={cx("squished lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,30vw)]", className)} {...props}>
     {children}
   </div>
 );
@@ -23,7 +23,7 @@ export const PreviewSidebar = ({
   return (
     <aside
       className={cx(
-        "bg-filled sticky top-0 hidden min-h-screen flex-col gap-4 self-start p-6 lg:flex lg:border-l lg:border-border",
+        "bg-filled sticky top-0 hidden min-h-screen min-w-0 flex-col gap-4 self-start overflow-hidden p-6 lg:flex lg:border-l lg:border-border",
         className,
       )}
       aria-labelledby={`${uid}-title`}
